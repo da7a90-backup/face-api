@@ -1,7 +1,7 @@
-const fs = require('fs');
-const log = require('@vladmandic/pilogger');
-const Build = require('@vladmandic/build').Build;
-const APIExtractor = require('@microsoft/api-extractor');
+import { existsSync, readFileSync, writeFileSync } from 'fs';
+import { warn, state, data, info } from '@vladmandic/pilogger';
+import { Build } from '@vladmandic/build';
+import { ExtractorConfig, Extractor } from '@microsoft/api-extractor';
 
 const regEx = [
   { search: 'types="@webgpu/types/dist"', replace: 'path="../src/types/webgpu.d.ts"' },
@@ -9,35 +9,35 @@ const regEx = [
 ];
 
 function copyFile(src, dst) {
-  if (!fs.existsSync(src)) {
-    log.warn('Copy:', { input: src, output: dst });
+  if (!existsSync(src)) {
+    warn('Copy:', { input: src, output: dst });
     return;
   }
-  log.state('Copy:', { input: src, output: dst });
-  const buffer = fs.readFileSync(src);
-  fs.writeFileSync(dst, buffer);
+  state('Copy:', { input: src, output: dst });
+  const buffer = readFileSync(src);
+  writeFileSync(dst, buffer);
 }
 
 function writeFile(str, dst) {
-  log.state('Write:', { output: dst });
-  fs.writeFileSync(dst, str);
+  state('Write:', { output: dst });
+  writeFileSync(dst, str);
 }
 
 function regExFile(src, entries) {
-  if (!fs.existsSync(src)) {
-    log.warn('Filter:', { src });
+  if (!existsSync(src)) {
+    warn('Filter:', { src });
     return;
   }
-  log.state('Filter:', { input: src });
+  state('Filter:', { input: src });
   for (const entry of entries) {
-    const buffer = fs.readFileSync(src, 'UTF-8');
+    const buffer = readFileSync(src, 'UTF-8');
     const lines = buffer.split(/\r?\n/);
     const out = [];
     for (const line of lines) {
       if (line.includes(entry.search)) out.push(line.replace(entry.search, entry.replace));
       else out.push(line);
     }
-    fs.writeFileSync(src, out.join('\n'));
+    writeFileSync(src, out.join('\n'));
   }
 }
 
@@ -48,11 +48,11 @@ async function main() {
   const build = new Build();
   await build.run('production');
   // patch tfjs typedefs
-  log.state('Copy:', { input: 'types/lib/dist/tfjs.esm.d.ts' });
+  state('Copy:', { input: 'types/lib/dist/tfjs.esm.d.ts' });
   copyFile('types/lib/dist/tfjs.esm.d.ts', 'dist/tfjs.esm.d.ts');
   // run api-extractor to create typedef rollup
-  const extractorConfig = APIExtractor.ExtractorConfig.loadFileAndPrepare('api-extractor.json');
-  const extractorResult = APIExtractor.Extractor.invoke(extractorConfig, {
+  const extractorConfig = ExtractorConfig.loadFileAndPrepare('api-extractor.json');
+  const extractorResult = Extractor.invoke(extractorConfig, {
     localBuild: true,
     showVerboseMessages: false,
     messageCallback: (msg) => {
@@ -60,10 +60,10 @@ async function main() {
       if (msg.logLevel === 'none' || msg.logLevel === 'verbose' || msg.logLevel === 'info') return;
       if (msg.sourceFilePath?.includes('/node_modules/')) return;
       if (apiIgnoreList.reduce((prev, curr) => prev || msg.messageId.includes(curr), false)) return;
-      log.data('API', { level: msg.logLevel, category: msg.category, id: msg.messageId, file: msg.sourceFilePath, line: msg.sourceFileLine, text: msg.text });
+      data('API', { level: msg.logLevel, category: msg.category, id: msg.messageId, file: msg.sourceFilePath, line: msg.sourceFileLine, text: msg.text });
     },
   });
-  log.state('API-Extractor:', { succeeeded: extractorResult.succeeded, errors: extractorResult.errorCount, warnings: extractorResult.warningCount });
+  state('API-Extractor:', { succeeeded: extractorResult.succeeded, errors: extractorResult.errorCount, warnings: extractorResult.warningCount });
   regExFile('types/face-api.d.ts', regEx);
   writeFile('export * from \'../types/face-api\';', 'dist/face-api.esm-nobundle.d.ts');
   writeFile('export * from \'../types/face-api\';', 'dist/face-api.esm.d.ts');
@@ -71,7 +71,7 @@ async function main() {
   writeFile('export * from \'../types/face-api\';', 'dist/face-api.node.d.ts');
   writeFile('export * from \'../types/face-api\';', 'dist/face-api.node-gpu.d.ts');
   writeFile('export * from \'../types/face-api\';', 'dist/face-api.node-wasm.d.ts');
-  log.info('FaceAPI Build complete...');
+  info('FaceAPI Build complete...');
 }
 
 main();

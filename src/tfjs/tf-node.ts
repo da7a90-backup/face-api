@@ -1,6 +1,6 @@
-const axios = require('axios');
-const loadTf = require('tfjs-node-lambda');
-const { Readable } = require('stream');
+import axios from 'axios';
+import loadTf from 'tfjs-node-lambda';
+import { Readable } from 'stream';
 
 const downloadFile = async (url: string) => {
   const req = await axios.get(
@@ -14,9 +14,7 @@ const file = await downloadFile('https://github.com/jlarmstrongiv/tfjs-node-lamb
 
 const readStream = Readable.from(file);
 
-const tfjs = require('@tensorflow/tfjs');
-
-const tf: typeof tfjs = await loadTf(readStream);
+const tf: typeof import('@tensorflow/tfjs') = await loadTf(readStream);
 
 export default tf;
 export { version } from '../../dist/tfjs.version.js';

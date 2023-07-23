@@ -1,5 +1,6 @@
 {
   "name": "@vladmandic/face-api",
+  "type": "module",
   "version": "1.7.12",
   "description": "FaceAPI: AI-powered Face Detection & Rotation Tracking, Face Description & Recognition, Age & Gender & Emotion Prediction for Browser and NodeJS using TensorFlow/JS",
   "sideEffects": false,
