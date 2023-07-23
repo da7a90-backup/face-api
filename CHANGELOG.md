@@ -11,6 +11,7 @@
   
 ### **HEAD -> master** 2023/07/23 sidbarrack@gmail.com
 
+- refactor: replaced axios with fetch
 - fix: using module
 - fix: using esm instead of cjs
 - fix: using require instead of import

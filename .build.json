@@ -33,8 +33,7 @@
       "target": "es2022",
       "treeShaking": true,
       "ignoreAnnotations": true,
-      "sourcemap": false,
-      "banner": { "js": "/*\n  Face-API\n  homepage: <https://github.com/vladmandic/face-api>\n  author: <https://github.com/vladmandic>'\n*/\n" }
+      "sourcemap": false
     },
     "targets": [
       { 
@@ -50,7 +49,10 @@
         "format": "esm",
         "input": "src/tfjs/tf-node.ts",
         "output": "dist/tfjs.esm.js",
-        "external": ["@tensorflow"]
+        "external": ["@tensorflow"],
+        "banner": {
+          "js": "import { createRequire } from 'module'; const require = createRequire(import.meta.url);"
+        }
       },
       {
         "name": "faceapi/node/cpu",
@@ -58,7 +60,10 @@
         "format": "esm",
         "input": "src/index.ts",
         "output": "dist/face-api.node.js",
-        "external": ["@tensorflow"]
+        "external": ["@tensorflow"],
+        "banner": {
+          "js": "import { createRequire } from 'module'; const require = createRequire(import.meta.url);"
+        }
       },
       {
         "name": "tfjs/node/gpu",
