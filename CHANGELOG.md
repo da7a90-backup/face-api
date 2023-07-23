@@ -11,6 +11,7 @@
   
 ### **HEAD -> master** 2023/07/23 sidbarrack@gmail.com
 
+- feat: added tfjs-node from /tmp dir for usage in lambda and vercel
 
 ### **1.7.12** 2023/06/12 mandic00@live.com
 
