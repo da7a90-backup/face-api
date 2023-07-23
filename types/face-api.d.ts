@@ -1,5 +1,7 @@
 /// <reference path="../src/types/webgpu.d.ts" />
 
+import { tensorflowTfjs } from '@tensorflow/tfjs';
+
 declare const add: typeof add_;
 
 /**
@@ -37,8 +39,8 @@ export declare class AgeGenderNet extends NeuralNetwork<NetParams> {
     private _faceFeatureExtractor;
     constructor(faceFeatureExtractor?: TinyXception);
     get faceFeatureExtractor(): TinyXception;
-    runNet(input: NetInput | tf.Tensor4D): NetOutput;
-    forwardInput(input: NetInput | tf.Tensor4D): NetOutput;
+    runNet(input: NetInput | tf_2.Tensor4D): NetOutput;
+    forwardInput(input: NetInput | tf_2.Tensor4D): NetOutput;
     forward(input: TNetInput): Promise<NetOutput>;
     predictAgeAndGender(input: TNetInput): Promise<AgeAndGenderPrediction | AgeAndGenderPrediction[]>;
     protected getDefaultModelName(): string;
@@ -48,7 +50,7 @@ export declare class AgeGenderNet extends NeuralNetwork<NetParams> {
         params: NetParams;
         paramMappings: ParamMapping[];
     };
-    protected extractParamsFromWeightMap(weightMap: tf.NamedTensorMap): {
+    protected extractParamsFromWeightMap(weightMap: tf_2.NamedTensorMap): {
         params: NetParams;
         paramMappings: ParamMapping[];
     };
@@ -111,8 +113,8 @@ declare function avgPool_<T extends Tensor3D | Tensor4D>(x: T | TensorLike, filt
 export declare function awaitMediaLoaded(media: HTMLImageElement | HTMLVideoElement | HTMLCanvasElement): Promise<unknown>;
 
 export declare type BatchNorm = {
-    sub: tf.Tensor1D;
-    truediv: tf.Tensor1D;
+    sub: tf_2.Tensor1D;
+    truediv: tf_2.Tensor1D;
 };
 
 declare const batchNorm: typeof batchNorm_;
@@ -625,8 +627,8 @@ declare type ConvLayerParams = {
 };
 
 declare type ConvParams = {
-    filters: tf.Tensor4D;
-    bias: tf.Tensor1D;
+    filters: tf_2.Tensor4D;
+    bias: tf_2.Tensor1D;
 };
 
 export declare type ConvWithBatchNorm = {
@@ -1217,7 +1219,7 @@ export declare function extractFaces(input: TNetInput, detections: Array<FaceDet
  * @param detections The face detection results or face bounding boxes for that image.
  * @returns Tensors of the corresponding image region for each detected face.
  */
-export declare function extractFaceTensors(imageTensor: tf.Tensor3D | tf.Tensor4D, detections: Array<FaceDetection | Rect>): Promise<tf.Tensor3D[]>;
+export declare function extractFaceTensors(imageTensor: tf_2.Tensor3D | tf_2.Tensor4D, detections: Array<FaceDetection | Rect>): Promise<tf_2.Tensor3D[]>;
 
 export declare const FACE_EXPRESSION_LABELS: string[];
 
@@ -1235,8 +1237,8 @@ export declare type FaceDetectionOptions = TinyFaceDetectorOptions | SsdMobilene
 
 export declare class FaceExpressionNet extends FaceProcessor<FaceFeatureExtractorParams> {
     constructor(faceFeatureExtractor?: FaceFeatureExtractor);
-    forwardInput(input: NetInput | tf.Tensor4D): tf.Tensor2D;
-    forward(input: TNetInput): Promise<tf.Tensor2D>;
+    forwardInput(input: NetInput | tf_2.Tensor4D): tf_2.Tensor2D;
+    forward(input: TNetInput): Promise<tf_2.Tensor2D>;
     predictExpressions(input: TNetInput): Promise<any>;
     protected getDefaultModelName(): string;
     protected getClassifierChannelsIn(): number;
@@ -1260,10 +1262,10 @@ export declare class FaceExpressions {
 
 declare class FaceFeatureExtractor extends NeuralNetwork<FaceFeatureExtractorParams> implements IFaceFeatureExtractor<FaceFeatureExtractorParams> {
     constructor();
-    forwardInput(input: NetInput): tf.Tensor4D;
-    forward(input: TNetInput): Promise<tf.Tensor4D>;
+    forwardInput(input: NetInput): tf_2.Tensor4D;
+    forward(input: TNetInput): Promise<tf_2.Tensor4D>;
     protected getDefaultModelName(): string;
-    protected extractParamsFromWeightMap(weightMap: tf.NamedTensorMap): {
+    protected extractParamsFromWeightMap(weightMap: tf_2.NamedTensorMap): {
         params: FaceFeatureExtractorParams;
         paramMappings: ParamMapping[];
     };
@@ -1287,9 +1289,9 @@ export declare class FaceLandmark68Net extends FaceLandmark68NetBase<FaceFeature
 }
 
 declare abstract class FaceLandmark68NetBase<TExtractorParams extends FaceFeatureExtractorParams | TinyFaceFeatureExtractorParams> extends FaceProcessor<TExtractorParams> {
-    postProcess(output: tf.Tensor2D, inputSize: number, originalDimensions: IDimensions[]): tf.Tensor2D;
-    forwardInput(input: NetInput): tf.Tensor2D;
-    forward(input: TNetInput): Promise<tf.Tensor2D>;
+    postProcess(output: tf_2.Tensor2D, inputSize: number, originalDimensions: IDimensions[]): tf_2.Tensor2D;
+    forwardInput(input: NetInput): tf_2.Tensor2D;
+    forward(input: TNetInput): Promise<tf_2.Tensor2D>;
     detectLandmarks(input: TNetInput): Promise<FaceLandmarks68 | FaceLandmarks68[]>;
     protected getClassifierChannelsOut(): number;
 }
@@ -1380,14 +1382,14 @@ declare abstract class FaceProcessor<TExtractorParams extends FaceFeatureExtract
     protected abstract getDefaultModelName(): string;
     protected abstract getClassifierChannelsIn(): number;
     protected abstract getClassifierChannelsOut(): number;
-    runNet(input: NetInput | tf.Tensor4D): tf.Tensor2D;
+    runNet(input: NetInput | tf_2.Tensor4D): tf_2.Tensor2D;
     dispose(throwOnRedispose?: boolean): void;
     loadClassifierParams(weights: Float32Array): void;
     extractClassifierParams(weights: Float32Array): {
         params: NetParams_2;
         paramMappings: ParamMapping[];
     };
-    protected extractParamsFromWeightMap(weightMap: tf.NamedTensorMap): {
+    protected extractParamsFromWeightMap(weightMap: tf_2.NamedTensorMap): {
         params: NetParams_2;
         paramMappings: ParamMapping[];
     };
@@ -1399,11 +1401,11 @@ declare abstract class FaceProcessor<TExtractorParams extends FaceFeatureExtract
 
 export declare class FaceRecognitionNet extends NeuralNetwork<NetParams_3> {
     constructor();
-    forwardInput(input: NetInput): tf.Tensor2D;
-    forward(input: TNetInput): Promise<tf.Tensor2D>;
+    forwardInput(input: NetInput): tf_2.Tensor2D;
+    forward(input: TNetInput): Promise<tf_2.Tensor2D>;
     computeFaceDescriptor(input: TNetInput): Promise<Float32Array | Float32Array[]>;
     protected getDefaultModelName(): string;
-    protected extractParamsFromWeightMap(weightMap: tf.NamedTensorMap): {
+    protected extractParamsFromWeightMap(weightMap: tf_2.NamedTensorMap): {
         params: NetParams_3;
         paramMappings: ParamMapping[];
     };
@@ -1414,8 +1416,8 @@ export declare class FaceRecognitionNet extends NeuralNetwork<NetParams_3> {
 }
 
 declare type FCParams = {
-    weights: tf.Tensor2D;
-    bias: tf.Tensor1D;
+    weights: tf_2.Tensor2D;
+    bias: tf_2.Tensor1D;
 };
 
 export declare function fetchImage(uri: string): Promise<HTMLImageElement>;
@@ -1753,8 +1755,8 @@ export declare interface IFaceDetecion {
 }
 
 declare interface IFaceFeatureExtractor<TNetParams extends TinyFaceFeatureExtractorParams | FaceFeatureExtractorParams> extends NeuralNetwork<TNetParams> {
-    forwardInput(input: NetInput): tf.Tensor4D;
-    forward(input: TNetInput): Promise<tf.Tensor4D>;
+    forwardInput(input: NetInput): tf_2.Tensor4D;
+    forward(input: TNetInput): Promise<tf_2.Tensor4D>;
 }
 
 export declare interface IFaceLandmarks {
@@ -1794,7 +1796,7 @@ declare interface ImageOptions {
     alpha?: number;
 }
 
-export declare function imageTensorToCanvas(imgTensor: tf.Tensor, canvas?: HTMLCanvasElement): Promise<HTMLCanvasElement>;
+export declare function imageTensorToCanvas(imgTensor: tf_2.Tensor, canvas?: HTMLCanvasElement): Promise<HTMLCanvasElement>;
 
 export declare function imageToSquare(input: HTMLImageElement | HTMLCanvasElement, inputSize: number, centerImage?: boolean): HTMLCanvasElement;
 
@@ -1912,13 +1914,13 @@ export declare interface ISsdMobilenetv1Options {
 
 declare function isTensor(tensor: any, dim: number): boolean;
 
-declare function isTensor1D(tensor: any): tensor is tf.Tensor1D;
+declare function isTensor1D(tensor: any): tensor is tf_2.Tensor1D;
 
-declare function isTensor2D(tensor: any): tensor is tf.Tensor2D;
+declare function isTensor2D(tensor: any): tensor is tf_2.Tensor2D;
 
-declare function isTensor3D(tensor: any): tensor is tf.Tensor3D;
+declare function isTensor3D(tensor: any): tensor is tf_2.Tensor3D;
 
-declare function isTensor4D(tensor: any): tensor is tf.Tensor4D;
+declare function isTensor4D(tensor: any): tensor is tf_2.Tensor4D;
 
 declare function isValidNumber(num: any): boolean;
 
@@ -2090,7 +2092,7 @@ export declare const loadTinyFaceDetectorModel: (url: string) => Promise<void>;
 
 export declare const loadTinyYolov2Model: (url: string) => Promise<void>;
 
-export declare function loadWeightMap(uri: string | undefined, defaultModelName: string): Promise<tf.NamedTensorMap>;
+export declare function loadWeightMap(uri: string | undefined, defaultModelName: string): Promise<tf_2.NamedTensorMap>;
 
 /**
  * Reads a weights manifest JSON configuration, fetches the weights and
@@ -2175,11 +2177,11 @@ export declare type MobilenetParams = {
 
 declare namespace MobileNetV1 {
     type DepthwiseConvParams = {
-        filters: tf.Tensor4D;
-        batch_norm_scale: tf.Tensor1D;
-        batch_norm_offset: tf.Tensor1D;
-        batch_norm_mean: tf.Tensor1D;
-        batch_norm_variance: tf.Tensor1D;
+        filters: tf_2.Tensor4D;
+        batch_norm_scale: tf_2.Tensor1D;
+        batch_norm_offset: tf_2.Tensor1D;
+        batch_norm_mean: tf_2.Tensor1D;
+        batch_norm_variance: tf_2.Tensor1D;
     };
     type ConvPairParams = {
         depthwise_conv: DepthwiseConvParams;
@@ -2514,14 +2516,14 @@ export declare class NetInput {
     private _inputDimensions;
     private _inputSize;
     constructor(inputs: Array<TResolvedNetInput>, treatAsBatchInput?: boolean);
-    get imageTensors(): Array<tf.Tensor3D | tf.Tensor4D>;
+    get imageTensors(): Array<tf_2.Tensor3D | tf_2.Tensor4D>;
     get canvases(): HTMLCanvasElement[];
     get isBatchInput(): boolean;
     get batchSize(): number;
     get inputDimensions(): number[][];
     get inputSize(): number | undefined;
     get reshapedInputDimensions(): Dimensions[];
-    getInput(batchIdx: number): tf.Tensor3D | tf.Tensor4D | HTMLCanvasElement;
+    getInput(batchIdx: number): tf_2.Tensor3D | tf_2.Tensor4D | HTMLCanvasElement;
     getInputDimensions(batchIdx: number): number[];
     getInputHeight(batchIdx: number): number;
     getInputWidth(batchIdx: number): number;
@@ -2535,12 +2537,12 @@ export declare class NetInput {
      * both sides of the minor dimension oof the image.
      * @returns The batch tensor.
      */
-    toBatchTensor(inputSize: number, isCenterInputs?: boolean): tf.Tensor4D;
+    toBatchTensor(inputSize: number, isCenterInputs?: boolean): tf_2.Tensor4D;
 }
 
 export declare type NetOutput = {
-    age: tf.Tensor1D;
-    gender: tf.Tensor2D;
+    age: tf_2.Tensor1D;
+    gender: tf_2.Tensor2D;
 };
 
 export declare type NetParams = {
@@ -2570,7 +2572,7 @@ declare type NetParams_3 = {
     conv256_1: ResidualLayerParams;
     conv256_2: ResidualLayerParams;
     conv256_down_out: ResidualLayerParams;
-    fc: tf.Tensor2D;
+    fc: tf_2.Tensor2D;
 };
 
 declare type NetParams_4 = {
@@ -2598,19 +2600,19 @@ export declare abstract class NeuralNetwork<TNetParams> {
     get params(): TNetParams | undefined;
     get paramMappings(): ParamMapping[];
     get isLoaded(): boolean;
-    getParamFromPath(paramPath: string): tf.Tensor;
-    reassignParamFromPath(paramPath: string, tensor: tf.Tensor): void;
+    getParamFromPath(paramPath: string): tf_2.Tensor;
+    reassignParamFromPath(paramPath: string, tensor: tf_2.Tensor): void;
     getParamList(): {
         path: string;
-        tensor: tf.Tensor;
+        tensor: tf_2.Tensor;
     }[];
     getTrainableParams(): {
         path: string;
-        tensor: tf.Tensor;
+        tensor: tf_2.Tensor;
     }[];
     getFrozenParams(): {
         path: string;
-        tensor: tf.Tensor;
+        tensor: tf_2.Tensor;
     }[];
     variable(): void;
     freeze(): void;
@@ -2619,11 +2621,11 @@ export declare abstract class NeuralNetwork<TNetParams> {
     load(weightsOrUrl: Float32Array | string | undefined): Promise<void>;
     loadFromUri(uri: string | undefined): Promise<void>;
     loadFromDisk(filePath: string | undefined): Promise<void>;
-    loadFromWeightMap(weightMap: tf.NamedTensorMap): void;
+    loadFromWeightMap(weightMap: tf_2.NamedTensorMap): void;
     extractWeights(weights: Float32Array): void;
     private traversePropertyPath;
     protected abstract getDefaultModelName(): string;
-    protected abstract extractParamsFromWeightMap(weightMap: tf.NamedTensorMap): {
+    protected abstract extractParamsFromWeightMap(weightMap: tf_2.NamedTensorMap): {
         params: TNetParams;
         paramMappings: ParamMapping[];
     };
@@ -2635,7 +2637,7 @@ export declare abstract class NeuralNetwork<TNetParams> {
 
 export declare function nonMaxSuppression(boxes: Box[], scores: number[], iouThreshold: number, isIOU?: boolean): number[];
 
-export declare function normalize(x: tf.Tensor4D, meanRgb: number[]): tf.Tensor4D;
+export declare function normalize(x: tf_2.Tensor4D, meanRgb: number[]): tf_2.Tensor4D;
 
 declare type NumericDataType = 'float32' | 'int32' | 'bool' | 'complex64';
 
@@ -2667,7 +2669,7 @@ export declare class ObjectDetection {
 declare type OnProgressCallback = (fraction: number) => void;
 
 declare type OutputLayerParams = {
-    extra_dim: tf.Tensor3D;
+    extra_dim: tf_2.Tensor3D;
 };
 
 declare const pad: typeof pad_;
@@ -2725,7 +2727,7 @@ declare type PadInfo3D = {
  * both sides of the minor dimension oof the image.
  * @returns The padded tensor with width === height.
  */
-export declare function padToSquare(imgTensor: tf.Tensor4D, isCenterImage?: boolean): tf.Tensor4D;
+export declare function padToSquare(imgTensor: tf_2.Tensor4D, isCenterImage?: boolean): tf_2.Tensor4D;
 
 /**
  * @license
@@ -2804,8 +2806,8 @@ export declare class Point implements IPoint {
 }
 
 declare type PointwiseConvParams = {
-    filters: tf.Tensor4D;
-    batch_norm_offset: tf.Tensor1D;
+    filters: tf_2.Tensor4D;
+    batch_norm_offset: tf_2.Tensor1D;
 };
 
 /**
@@ -3107,8 +3109,8 @@ declare type Scalar = Tensor<Rank.R0>;
 declare function scalar(value: number | boolean | string | Uint8Array, dtype?: DataType): Scalar;
 
 declare type ScaleLayerParams = {
-    weights: tf.Tensor1D;
-    biases: tf.Tensor1D;
+    weights: tf_2.Tensor1D;
+    biases: tf_2.Tensor1D;
 };
 
 /** @docalias Function */
@@ -3164,10 +3166,10 @@ declare const separableConv2d: typeof separableConv2d_;
 declare function separableConv2d_<T extends Tensor3D | Tensor4D>(x: T | TensorLike, depthwiseFilter: Tensor4D | TensorLike, pointwiseFilter: Tensor4D | TensorLike, strides: [number, number] | number, pad: 'valid' | 'same', dilation?: [number, number] | number, dataFormat?: 'NHWC' | 'NCHW'): T;
 
 declare class SeparableConvParams {
-    depthwise_filter: tf.Tensor4D;
-    pointwise_filter: tf.Tensor4D;
-    bias: tf.Tensor1D;
-    constructor(depthwise_filter: tf.Tensor4D, pointwise_filter: tf.Tensor4D, bias: tf.Tensor1D);
+    depthwise_filter: tf_2.Tensor4D;
+    pointwise_filter: tf_2.Tensor4D;
+    bias: tf_2.Tensor1D;
+    constructor(depthwise_filter: tf_2.Tensor4D, pointwise_filter: tf_2.Tensor4D, bias: tf_2.Tensor1D);
 }
 
 declare function setEnv(env: Environment): void;
@@ -3306,7 +3308,7 @@ export declare class SsdMobilenetv1 extends NeuralNetwork<NetParams_4> {
     forward(input: TNetInput): Promise<any>;
     locateFaces(input: TNetInput, options?: ISsdMobilenetv1Options): Promise<FaceDetection[]>;
     protected getDefaultModelName(): string;
-    protected extractParamsFromWeightMap(weightMap: tf.NamedTensorMap): {
+    protected extractParamsFromWeightMap(weightMap: tf_2.NamedTensorMap): {
         params: NetParams_4;
         paramMappings: ParamMapping[];
     };
@@ -3905,7 +3907,9 @@ declare type TensorLike3D = TypedArray | number[] | number[][][] | boolean[] | b
 /** @docalias TypedArray|Array */
 declare type TensorLike4D = TypedArray | number[] | number[][][][] | boolean[] | boolean[][][][] | string[] | string[][][][] | Uint8Array[] | Uint8Array[][][][];
 
-declare namespace tf {
+export declare const tf: tensorflowTfjs;
+
+declare namespace tf_2 {
     export {
         version_2 as version,
         io,
@@ -3960,7 +3964,6 @@ declare namespace tf {
         NamedTensorMap
     }
 }
-export { tf }
 
 /**
  * Executes the provided function `fn` and after it is executed, cleans up all
@@ -4038,7 +4041,7 @@ export declare class TinyFaceDetector extends TinyYolov2Base {
     get anchors(): Point[];
     locateFaces(input: TNetInput, forwardParams: ITinyYolov2Options): Promise<FaceDetection[]>;
     protected getDefaultModelName(): string;
-    protected extractParamsFromWeightMap(weightMap: tf.NamedTensorMap): {
+    protected extractParamsFromWeightMap(weightMap: tf_2.NamedTensorMap): {
         params: TinyYolov2NetParams;
         paramMappings: ParamMapping[];
     };
@@ -4059,10 +4062,10 @@ export declare class TinyFaceDetectorOptions extends TinyYolov2Options {
 
 declare class TinyFaceFeatureExtractor extends NeuralNetwork<TinyFaceFeatureExtractorParams> implements IFaceFeatureExtractor<TinyFaceFeatureExtractorParams> {
     constructor();
-    forwardInput(input: NetInput): tf.Tensor4D;
-    forward(input: TNetInput): Promise<tf.Tensor4D>;
+    forwardInput(input: NetInput): tf_2.Tensor4D;
+    forward(input: TNetInput): Promise<tf_2.Tensor4D>;
     protected getDefaultModelName(): string;
-    protected extractParamsFromWeightMap(weightMap: tf.NamedTensorMap): {
+    protected extractParamsFromWeightMap(weightMap: tf_2.NamedTensorMap): {
         params: TinyFaceFeatureExtractorParams;
         paramMappings: ParamMapping[];
     };
@@ -4081,10 +4084,10 @@ declare type TinyFaceFeatureExtractorParams = {
 declare class TinyXception extends NeuralNetwork<TinyXceptionParams> {
     private _numMainBlocks;
     constructor(numMainBlocks: number);
-    forwardInput(input: NetInput): tf.Tensor4D;
-    forward(input: TNetInput): Promise<tf.Tensor4D>;
+    forwardInput(input: NetInput): tf_2.Tensor4D;
+    forward(input: TNetInput): Promise<tf_2.Tensor4D>;
     protected getDefaultModelName(): string;
-    protected extractParamsFromWeightMap(weightMap: tf.NamedTensorMap): {
+    protected extractParamsFromWeightMap(weightMap: tf_2.NamedTensorMap): {
         params: TinyXceptionParams;
         paramMappings: ParamMapping[];
     };
@@ -4113,7 +4116,7 @@ export declare class TinyYolov2 extends TinyYolov2Base {
     get anchors(): Point[];
     locateFaces(input: TNetInput, forwardParams: ITinyYolov2Options): Promise<FaceDetection[]>;
     protected getDefaultModelName(): string;
-    protected extractParamsFromWeightMap(weightMap: tf.NamedTensorMap): {
+    protected extractParamsFromWeightMap(weightMap: tf_2.NamedTensorMap): {
         params: TinyYolov2NetParams;
         paramMappings: ParamMapping[];
     };
@@ -4135,13 +4138,13 @@ declare class TinyYolov2Base extends NeuralNetwork<TinyYolov2NetParams> {
     get config(): TinyYolov2Config;
     get withClassScores(): boolean;
     get boxEncodingSize(): number;
-    runTinyYolov2(x: tf.Tensor4D, params: DefaultTinyYolov2NetParams): tf.Tensor4D;
-    runMobilenet(x: tf.Tensor4D, params: MobilenetParams): tf.Tensor4D;
-    forwardInput(input: NetInput, inputSize: number): tf.Tensor4D;
-    forward(input: TNetInput, inputSize: number): Promise<tf.Tensor4D>;
+    runTinyYolov2(x: tf_2.Tensor4D, params: DefaultTinyYolov2NetParams): tf_2.Tensor4D;
+    runMobilenet(x: tf_2.Tensor4D, params: MobilenetParams): tf_2.Tensor4D;
+    forwardInput(input: NetInput, inputSize: number): tf_2.Tensor4D;
+    forward(input: TNetInput, inputSize: number): Promise<tf_2.Tensor4D>;
     detect(input: TNetInput, forwardParams?: ITinyYolov2Options): Promise<ObjectDetection[]>;
     protected getDefaultModelName(): string;
-    protected extractParamsFromWeightMap(weightMap: tf.NamedTensorMap): {
+    protected extractParamsFromWeightMap(weightMap: tf_2.NamedTensorMap): {
         params: TinyYolov2NetParams;
         paramMappings: ParamMapping[];
     };
@@ -4149,7 +4152,7 @@ declare class TinyYolov2Base extends NeuralNetwork<TinyYolov2NetParams> {
         params: TinyYolov2NetParams;
         paramMappings: ParamMapping[];
     };
-    protected extractBoxes(outputTensor: tf.Tensor4D, inputBlobDimensions: Dimensions, scoreThreshold?: number): Promise<any>;
+    protected extractBoxes(outputTensor: tf_2.Tensor4D, inputBlobDimensions: Dimensions, scoreThreshold?: number): Promise<any>;
     private extractPredictedClass;
 }
 

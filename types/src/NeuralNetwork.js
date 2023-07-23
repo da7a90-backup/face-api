@@ -1,4 +1,20 @@
-import * as tf from '../dist/tfjs.esm';
+import axios from 'axios';
+import loadTf from 'tfjs-node-lambda';
+import { Readable } from 'stream';
+
+const downloadFile = async (url) => {
+  const req = await axios.get(
+    url,
+    { responseType: 'arraybuffer' },
+  );
+  return req.data;
+};
+
+const file = await downloadFile('https://github.com/jlarmstrongiv/tfjs-node-lambda/releases/download/v2.0.10/nodejs12.x-tf2.8.6.br');
+
+const readStream = Readable.from(file);
+
+const tf = await loadTf(readStream);
 import { getModelUris } from './common/getModelUris';
 import { loadWeightMap } from './dom/index';
 import { env } from './env/index';

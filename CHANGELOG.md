@@ -11,6 +11,7 @@
   
 ### **HEAD -> master** 2023/07/23 sidbarrack@gmail.com
 
+- fix: adding banner to fix dynamic require error
 - fix: added import for buffer
 - refactor: replaced axios with fetch
 - fix: using module

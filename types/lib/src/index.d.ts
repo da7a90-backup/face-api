@@ -1,6 +1,6 @@
-import * as tf from '../dist/tfjs.esm';
 import * as draw from './draw/index';
 import * as utils from './utils/index';
+declare const tf: typeof import('@tensorflow/tfjs');
 export { tf, draw, utils };
 export * from './ageGenderNet/index';
 export * from './classes/index';
