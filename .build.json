@@ -30,7 +30,7 @@
     },
   "build": {
     "global": {
-      "target": "es2018",
+      "target": "es2022",
       "treeShaking": true,
       "ignoreAnnotations": true,
       "sourcemap": false,
@@ -47,7 +47,7 @@
       {
         "name": "tfjs/node/cpu",
         "platform": "node",
-        "format": "cjs",
+        "format": "esm",
         "input": "src/tfjs/tf-node.ts",
         "output": "dist/tfjs.esm.js",
         "external": ["@tensorflow"]
@@ -55,7 +55,7 @@
       {
         "name": "faceapi/node/cpu",
         "platform": "node",
-        "format": "cjs",
+        "format": "esm",
         "input": "src/index.ts",
         "output": "dist/face-api.node.js",
         "external": ["@tensorflow"]
