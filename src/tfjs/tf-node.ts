@@ -1,5 +1,6 @@
 import loadTf from 'tfjs-node-lambda';
 import { Readable } from 'stream';
+import { Buffer } from 'buffer';
 
 const downloadFile = async (url: string) => {
   const req = await fetch(url);
