@@ -1,6 +1,6 @@
-import axios from 'axios';
-import loadTf from 'tfjs-node-lambda';
-import { Readable } from 'stream';
+const axios = require('axios');
+const loadTf = require('tfjs-node-lambda');
+const { Readable } = require('stream');
 
 const downloadFile = async (url: string) => {
   const req = await axios.get(
@@ -10,11 +10,16 @@ const downloadFile = async (url: string) => {
   return req.data;
 };
 
-const file = await downloadFile('https://github.com/jlarmstrongiv/tfjs-node-lambda/releases/download/v2.0.10/nodejs12.x-tf2.8.6.br');
+let readStream;
 
-const readStream = Readable.from(file);
+downloadFile('https://github.com/jlarmstrongiv/tfjs-node-lambda/releases/download/v2.0.10/nodejs12.x-tf2.8.6.br')
+  .then((file) => {
+    readStream = Readable.from(file);
+  });
 
-const tf: typeof import('@tensorflow/tfjs') = await loadTf(readStream);
+const tfjs = require('@tensorflow/tfjs');
+
+const tf: typeof tfjs = loadTf(readStream);
 
 export default tf;
 export { version } from '../../dist/tfjs.version.js';
